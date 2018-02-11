@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,16 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
     private final int permissionRequestCode = 1;
 
+    ToneGenerator toneG;
+
     private AppCompatActivity context;
     private TextView distance;
-    private TextView originLlatitude;
-    private TextView originLlongitude;
-    private TextView originLaltitude;
-    private TextView destinationlatitude;
-    private TextView destinationlongitude;
-    private TextView destinationaltitude;
-
-
+    private TextView originLatitude;
+    private TextView originLongitude;
+    private TextView originAltitude;
+    private TextView destinationLatitude;
+    private TextView destinationLongitude;
+    private TextView destinationAltitude;
 
     private Location location;
     private Location originLocation;
@@ -50,15 +52,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         context = MainActivity.this;
-
         distance = (TextView) findViewById(R.id.txt_distance);
-        originLlatitude = (TextView) findViewById(R.id.txt_origin_lat);
-        originLlongitude = (TextView) findViewById(R.id.txt_origin_lon);
-        originLaltitude = (TextView) findViewById(R.id.txt_origin_alt);
-        destinationlatitude = (TextView) findViewById(R.id.txt_destination_lat);
-        destinationlongitude = (TextView) findViewById(R.id.txt_destination_lon);
-        destinationaltitude = (TextView) findViewById(R.id.txt_destination_alt);
-
+        originLatitude = (TextView) findViewById(R.id.txt_origin_lat);
+        originLongitude = (TextView) findViewById(R.id.txt_origin_lon);
+        originAltitude = (TextView) findViewById(R.id.txt_origin_alt);
+        destinationLatitude = (TextView) findViewById(R.id.txt_destination_lat);
+        destinationLongitude = (TextView) findViewById(R.id.txt_destination_lon);
+        destinationAltitude = (TextView) findViewById(R.id.txt_destination_alt);
+        toneG = new ToneGenerator(AudioManager.STREAM_DTMF, 200);
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onReceive(Context context, Intent intent) {
+                //beep();
                 try {
                     location = convertToLocation(intent.getExtras().getString("location"));
                 } catch (Exception e) {
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 originLocation = location;
                 setOrigin(originLocation);
+                beep();
             }
         });
 
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     if (destinationLocation != null) {
                         setDestination(destinationLocation);
                         setDistance(originLocation, destinationLocation);
+                        beep();
                     }
                 } else {
                     Toast.makeText(context, "Please set origin first", Toast.LENGTH_SHORT).show();
@@ -179,25 +183,30 @@ public class MainActivity extends AppCompatActivity {
         double longitude = origin.getLongitude();
         double altitude = origin.getAltitude();
 
-        originLlatitude.setText(String.valueOf(latitude));
-        originLlongitude.setText(String.valueOf(longitude));
-        originLaltitude.setText(String.valueOf(altitude));
+        originLatitude.setText(String.valueOf(latitude));
+        originLongitude.setText(String.valueOf(longitude));
+        originAltitude.setText(String.valueOf(altitude));
 
     }
 
-    private void setDestination(Location destination){
+    private void setDestination(Location destination) {
         double latitude = destination.getLatitude();
         double longitude = destination.getLongitude();
         double altitude = destination.getAltitude();
 
-        destinationlatitude.setText(String.valueOf(latitude));
-        destinationlongitude.setText(String.valueOf(longitude));
-        destinationaltitude.setText(String.valueOf(altitude));
+        destinationLatitude.setText(String.valueOf(latitude));
+        destinationLongitude.setText(String.valueOf(longitude));
+        destinationAltitude.setText(String.valueOf(altitude));
     }
 
-    private void setDistance(Location origin, Location destination){
+    private void setDistance(Location origin, Location destination) {
         double destinationDouble = destination.distanceTo(origin);
         String distanceString = String.format(getResources().getString(R.string.distance_value), destinationDouble);
         distance.setText(distanceString);
+    }
+
+    private void beep() {
+        toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 280);
+
     }
 }

@@ -21,6 +21,8 @@ public class GPS_Service extends Service implements android.location.LocationLis
     private LocationListener locationListener;
     private LocationManager locationManager;
 
+    private long minTimeUpdates = 1000L;
+
     @Override
     public void onCreate() {
         context = GPS_Service.this;
@@ -36,11 +38,11 @@ public class GPS_Service extends Service implements android.location.LocationLis
             if (Build.VERSION.SDK_INT >= 23) {
 
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTimeUpdates, 0, locationListener);
                 }
 
             } else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTimeUpdates, 0, locationListener);
             }
         } catch (Exception e) {
             Log.e("My Code: ", "class -> GPS_Service in method -> onStartCommand -> " + e.toString());
