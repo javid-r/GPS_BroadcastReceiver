@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.practice.javid.gps_broadcastreceiver.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guide_m"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guide_b"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guide_s"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guide_ms"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guide_me"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guide_e"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <TextView
+        android:id="@+id/txt_origin_lat"
+        style="@style/mOriginStyle"
+        android:hint="@string/lat"
+        app:layout_constraintBottom_toTopOf="@id/txt_origin_lon"
+        app:layout_constraintEnd_toStartOf="@id/guide_ms"
+        app:layout_constraintStart_toEndOf="@id/guide_s"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <TextView
+        android:id="@+id/txt_origin_lon"
+        style="@style/mOriginStyle"
+        android:hint="@string/lon"
+        app:layout_constraintBottom_toTopOf="@id/txt_origin_alt"
+        app:layout_constraintEnd_toStartOf="@id/guide_ms"
+        app:layout_constraintStart_toEndOf="@id/guide_s"
+        app:layout_constraintTop_toBottomOf="@id/txt_origin_lat" />
+
+    <TextView
+        android:id="@+id/txt_origin_alt"
+        style="@style/mOriginStyle"
+        android:hint="@string/alt"
+        app:layout_constraintBottom_toTopOf="@id/guide_m"
+        app:layout_constraintEnd_toStartOf="@id/guide_ms"
+        app:layout_constraintStart_toEndOf="@id/guide_s"
+        app:layout_constraintTop_toBottomOf="@id/txt_origin_lon" />
+
+
+    <TextView
+        android:id="@+id/txt_lab_lat"
+        style="@style/mLabelStyle"
+        android:text="@string/lat"
+        app:layout_constraintBottom_toTopOf="@id/txt_lab_lon"
+        app:layout_constraintEnd_toStartOf="@id/guide_me"
+        app:layout_constraintStart_toEndOf="@id/guide_ms"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <TextView
+        android:id="@+id/txt_lab_lon"
+        style="@style/mLabelStyle"
+        android:text="@string/lon"
+        app:layout_constraintBottom_toTopOf="@id/txt_lab_alt"
+        app:layout_constraintEnd_toStartOf="@id/guide_me"
+        app:layout_constraintStart_toEndOf="@id/guide_ms"
+        app:layout_constraintTop_toBottomOf="@id/txt_lab_lat" />
+
+    <TextView
+        android:id="@+id/txt_lab_alt"
+        style="@style/mLabelStyle"
+        android:text="@string/alt"
+        app:layout_constraintBottom_toTopOf="@id/guide_m"
+        app:layout_constraintEnd_toStartOf="@id/guide_me"
+        app:layout_constraintStart_toEndOf="@id/guide_ms"
+        app:layout_constraintTop_toBottomOf="@id/txt_lab_lon" />
+
+
+    <TextView
+        android:id="@+id/txt_destination_lat"
+        style="@style/mDestinationStyle"
+        android:hint="@string/lat"
+        app:layout_constraintBottom_toTopOf="@id/txt_destination_lon"
+        app:layout_constraintEnd_toStartOf="@id/guide_e"
+        app:layout_constraintStart_toEndOf="@id/guide_me"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <TextView
+        android:id="@+id/txt_destination_lon"
+        style="@style/mDestinationStyle"
+        android:hint="@string/lon"
+        app:layout_constraintBottom_toTopOf="@id/txt_destination_alt"
+        app:layout_constraintEnd_toStartOf="@id/guide_e"
+        app:layout_constraintStart_toEndOf="@id/guide_me"
+        app:layout_constraintTop_toBottomOf="@id/txt_destination_lat" />
+
+    <TextView
+        android:id="@+id/txt_destination_alt"
+        style="@style/mDestinationStyle"
+        android:hint="@string/alt"
+        app:layout_constraintBottom_toTopOf="@id/guide_m"
+        app:layout_constraintEnd_toStartOf="@id/guide_e"
+        app:layout_constraintStart_toEndOf="@id/guide_me"
+        app:layout_constraintTop_toBottomOf="@id/txt_destination_lon" />
+
+
+    <TextView
+        android:id="@+id/txt_distance"
+        style="@style/mTextStyle"
+        android:textColor="#000"
+        android:hint="@string/distance_hint"
+        android:textSize="@dimen/value_text"
+        app:layout_constraintBottom_toTopOf="@id/guide_b"
+        app:layout_constraintEnd_toStartOf="@id/guide_e"
+        app:layout_constraintStart_toEndOf="@id/guide_s"
+        app:layout_constraintTop_toBottomOf="@id/guide_m" />
+
+    <Button
+        android:id="@+id/btn_origin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/origin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guide_ms"
+        app:layout_constraintStart_toEndOf="@id/guide_s"
+        app:layout_constraintTop_toBottomOf="@id/guide_b"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/btn_destination"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/destination"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/guide_me"
+        app:layout_constraintRight_toRightOf="@id/guide_e"
+        app:layout_constraintTop_toBottomOf="@id/guide_b" />
+
+</android.support.constraint.ConstraintLayout>

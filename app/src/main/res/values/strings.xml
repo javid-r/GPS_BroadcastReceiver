@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GPS_BroadcastReceiver</string>
+    <string name="action_settings">Settings</string>
+    <string name="lat">lat</string>
+    <string name="lon">lon</string>
+    <string name="alt">alt</string>
+    <string name="distance_value">dis: %f</string>
+    <string name="distance_hint">distance</string>
+    <string name="origin">origin</string>
+    <string name="destination">destination</string>
+</resources>
