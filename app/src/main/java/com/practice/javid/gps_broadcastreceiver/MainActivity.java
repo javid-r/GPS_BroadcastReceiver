@@ -1,8 +1,6 @@
 package com.practice.javid.gps_broadcastreceiver;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -17,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,11 +22,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private final int permissionRequestCode = 1;
 
-    ToneGenerator toneG;
+    private ToneGenerator toneG;
 
     private AppCompatActivity context;
     private TextView distance;
@@ -40,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView destinationLongitude;
     private TextView destinationAltitude;
 
-    private Location location;
     private Location originLocation;
     private Location destinationLocation;
+    private GPS_BroadcastReceiver onLocationChangedReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,19 +70,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        BroadcastReceiver onLocationChangedReceiver = new BroadcastReceiver() {
-
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                //beep();
-                try {
-                    location = convertToLocation(intent.getExtras().getString("location"));
-                } catch (Exception e) {
-                    Log.e("My Code", e.getMessage());
-                }
-            }
-        };
-
+        onLocationChangedReceiver = new GPS_BroadcastReceiver();
 
         IntentFilter LocationChangedIntentFilter = new IntentFilter();
         LocationChangedIntentFilter.addAction("Location_Changed");
@@ -94,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
         getOriginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                originLocation = location;
+                originLocation = onLocationChangedReceiver.getLocation();
                 setOrigin(originLocation);
                 beep();
+
             }
         });
 
@@ -105,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (originLocation != null) {
-                    destinationLocation = location;
+                    destinationLocation = onLocationChangedReceiver.getLocation();//location;
                     if (destinationLocation != null) {
                         setDestination(destinationLocation);
                         setDistance(originLocation, destinationLocation);
@@ -156,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(onLocationChangedReceiver);
         stopService(new Intent(context, GPS_Service.class));
         super.onDestroy();
     }
@@ -201,12 +189,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setDistance(Location origin, Location destination) {
         double destinationDouble = destination.distanceTo(origin);
-        String distanceString = String.format(getResources().getString(R.string.distance_value), destinationDouble);
+        String distanceString = String.format(
+                getResources().getString(R.string.distance_value),
+                destinationDouble);
         distance.setText(distanceString);
     }
 
     private void beep() {
         toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 280);
-
     }
 }
