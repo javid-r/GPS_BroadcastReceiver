@@ -148,24 +148,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private Location convertToLocation(String lla) {
-        String[] params = lla.split(",");
-        Location location = null;
-
-        if (params.length <= 3) {
-            double latitude = Double.parseDouble(params[0]);
-            double longitude = Double.parseDouble(params[1]);
-            double altitude = Double.parseDouble(params[2]);
-
-            location = new Location(LocationManager.GPS_PROVIDER);
-            location.setLatitude(latitude);
-            location.setLongitude(longitude);
-            location.setAltitude(altitude);
-        }
-
-        return location;
-    }
-
     private void setOrigin(Location origin) {
         double latitude = origin.getLatitude();
         double longitude = origin.getLongitude();
